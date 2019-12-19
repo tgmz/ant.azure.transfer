@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="maven.cache.test">
+	<path id="maven.cache.path">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<taskdef resource="de/tgmz/ant/azure/transfer/taskdef.properties" classpathref="maven.cache.path"/>	
+
+	<property name="connectionString" value="put your connection string in here" />
+	<property name="containerReference" value="the name of the blob container" />
+	<property name="fileName" value="the name of the blob" />
+	<property name="m2dir" value="${user.home}${file.separator}.m2" />
+	<property name="tempFile" value="${java.io.tmpdir}${file.separator}${fileName}" />
+	
+	<target name="download">
+		<azure.download connectionString="${connectionString}"
+			containerReference="${containerReference}"
+			destination="${tempFile}"
+			fileName="${fileName}" />
+		
+		<unzip src="${tempFile}" dest="${m2dir}"/>
+		
+		<delete file="${tempFile}" />
+	</target>
+
+	<target name="upload">
+		<zip destfile="${tempFile}" >
+			<fileset dir="${m2dir}" />
+		</zip>
+		
+		<azure.upload connectionString="${connectionString}"
+			containerReference="${containerReference}"
+			source="${tempFile}"
+			fileName="${fileName}" />
+		
+		<delete file="${tempFile}" />
+	</target>
+</project>

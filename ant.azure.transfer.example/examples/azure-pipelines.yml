@@ -1,0 +1,31 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Ant@1
+  inputs:
+    buildFile: '<project>/build.xml'
+    targets: 'download'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: '<project>/pom.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: Ant@1
+  inputs:
+    buildFile: '<project>/build.xml'
+    options: 
+    targets: 'upload'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
