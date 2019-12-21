@@ -16,6 +16,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import org.apache.tools.ant.BuildException;
@@ -34,9 +35,11 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
 public abstract class TransferTask extends org.apache.tools.ant.Task {
 	private static final Logger LOG = LoggerFactory.getLogger(TransferTask.class);
 	protected static final ThreadLocal<NumberFormat> NF = ThreadLocal.withInitial(DecimalFormat::new);
-    
-	/** The connection string for authentication to azure */
-	private String connectionString;
+
+	private String defaultEndpointsProtocol="https";
+	private String accountName;
+	private String accountKey;
+	private String endpointSuffix="core.windows.net";
 	/** The container on azure */
 	private String containerReference;
 	/** The file */
@@ -80,11 +83,12 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 		}
 	}
 	
-	public String getConnectionString() {
-		return connectionString;
-	}
-	public void setConnectionString(String connectionString) {
-		this.connectionString = connectionString;
+	private String getConnectionString() {
+		return MessageFormat.format("DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}"
+				, getDefaultEndpointsProtocol()
+				, getAccountName()
+				, getAccountKey()
+				, getEndpointSuffix());
 	}
 	public String getContainerReference() {
 		return containerReference;
@@ -97,5 +101,37 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getDefaultEndpointsProtocol() {
+		return defaultEndpointsProtocol;
+	}
+
+	public void setDefaultEndpointsProtocol(String defaultEndpointsProtocol) {
+		this.defaultEndpointsProtocol = defaultEndpointsProtocol;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public String getAccountKey() {
+		return accountKey;
+	}
+
+	public void setAccountKey(String accountKey) {
+		this.accountKey = accountKey;
+	}
+
+	public String getEndpointSuffix() {
+		return endpointSuffix;
+	}
+
+	public void setEndpointSuffix(String endpointSuffix) {
+		this.endpointSuffix = endpointSuffix;
 	}
 }

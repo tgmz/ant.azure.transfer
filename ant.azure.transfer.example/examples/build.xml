@@ -8,14 +8,19 @@
 	</path>
 	<taskdef resource="de/tgmz/ant/azure/transfer/taskdef.properties" classpathref="maven.cache.path"/>	
 
-	<property name="connectionString" value="put your connection string in here" />
+	<property name="accountName" value="put your account name in here" />
+	<property name="accountKey" value="put your account key" />
+	<!-- <property name="defaultEndpointsProtocol" value="" /> Defaults to "hhtps" -->
+	<!-- <property name="endpointSuffix" value"" /> Defaults to "core.windows.net" -->
+	
 	<property name="containerReference" value="the name of the blob container" />
 	<property name="fileName" value="the name of the blob" />
 	<property name="m2dir" value="${user.home}${file.separator}.m2" />
 	<property name="tempFile" value="${java.io.tmpdir}${file.separator}${fileName}" />
 	
 	<target name="download">
-		<azure.download connectionString="${connectionString}"
+		<azure.download accountName="${accountName}"
+			accountkey="${accountKey}"
 			containerReference="${containerReference}"
 			destination="${tempFile}"
 			fileName="${fileName}" />
@@ -30,7 +35,8 @@
 			<fileset dir="${m2dir}" />
 		</zip>
 		
-		<azure.upload connectionString="${connectionString}"
+		<azure.upload accountName="${accountName}"
+			accountkey="${accountKey}"
 			containerReference="${containerReference}"
 			source="${tempFile}"
 			fileName="${fileName}" />
