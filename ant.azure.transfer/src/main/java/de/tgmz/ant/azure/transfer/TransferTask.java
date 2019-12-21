@@ -19,6 +19,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import org.apache.tools.ant.BuildException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
@@ -30,6 +32,7 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
  * Common functionalities.
  */
 public abstract class TransferTask extends org.apache.tools.ant.Task {
+	private static final Logger LOG = LoggerFactory.getLogger(TransferTask.class);
 	protected static final ThreadLocal<NumberFormat> NF = ThreadLocal.withInitial(DecimalFormat::new);
     
 	/** The connection string for authentication to azure */
@@ -50,7 +53,6 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 				CloudStorageAccount storageAccount = CloudStorageAccount.parse(getConnectionString());
 				CloudBlobClient	blobClient = storageAccount.createCloudBlobClient();
 				CloudBlobContainer container = blobClient.getContainerReference(getContainerReference());
-
 				blob = container.getBlockBlobReference(getFileName());
 			} catch (InvalidKeyException | URISyntaxException | StorageException e) {
 				throw new BuildException(e);
@@ -61,6 +63,18 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	}
 	
 	protected double computeSize(Path p) throws IOException {
+		if (!p.toFile().exists()) {
+			LOG.warn("The file {} does not exist", p);
+			
+			return 0d;
+		}
+			
+		if (!p.toFile().isFile()) {
+			LOG.warn("{} is not a regular file", p);
+				
+			return 0d;
+		}
+		
 		try (FileChannel fc = FileChannel.open(p)) {
 			return (double) fc.size() / (1024 * 1024);
 		}

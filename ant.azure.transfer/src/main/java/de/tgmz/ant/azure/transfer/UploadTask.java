@@ -13,6 +13,7 @@ package de.tgmz.ant.azure.transfer;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.tools.ant.BuildException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,10 +42,10 @@ public class UploadTask extends TransferTask {
 
 			if (LOG.isInfoEnabled()) {
 				LOG.info("Uploading took {} msecs"
-						, NF.get().format(System.currentTimeMillis() - start));
+						, NF.get().format((System.currentTimeMillis() - start) / 1000d));
 			}
 		} catch (IOException | StorageException e) {
-			LOG.error("Error uploading {}", source, e);
+			throw new BuildException(e);
 		}
 	}
 	public File getSource() {

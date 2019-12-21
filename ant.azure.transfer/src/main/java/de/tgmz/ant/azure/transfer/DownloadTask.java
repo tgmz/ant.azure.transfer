@@ -13,6 +13,7 @@ package de.tgmz.ant.azure.transfer;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.tools.ant.BuildException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +40,12 @@ public class DownloadTask extends TransferTask {
 			getBlob().downloadToFile(destination.toString());
 
 			if (LOG.isInfoEnabled()) {
-				LOG.info("Downloading {} Mbytes took {} msecs"
+				LOG.info("Downloading {} Mbytes took {} secs"
 						, NF.get().format(computeSize(destination.toPath()))
-						, NF.get().format(System.currentTimeMillis() - start));
+						, NF.get().format((System.currentTimeMillis() - start) / 1000d));
 			}
 		} catch (StorageException | IOException e) {
-			LOG.error("Error downloading {}", getBlob().getUri(), e);
+			throw new BuildException(e);
 		}
 	}
 	public File getDestination() {
