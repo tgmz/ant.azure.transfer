@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.BuildException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.microsoft.azure.storage.StorageException;
 
@@ -28,27 +26,21 @@ import com.microsoft.azure.storage.StorageException;
  * Task to upload a file to an azure blob storage.
  */
 public class UploadTask extends TransferTask {
-	private static final Logger LOG = LoggerFactory.getLogger(UploadTask.class);
 	private File source;
 	
 	@Override
 	public void execute() {
 		try {
-			if (LOG.isInfoEnabled()) {
-				LOG.info("Uploading {} Mbytes from {} to {}"
-						, NF.get().format(computeSize(source.toPath()))
-						, source
-						, getBlob().getUri());
-			}
+			System.out.printf("Uploading %f Mbytes from %s to %s%n"
+					, computeSize(source.toPath())
+					, source
+					, getBlob().getUri());
 			
 			long start = System.currentTimeMillis();
 			
 			getBlob().uploadFromFile(source.toString());
 
-			if (LOG.isInfoEnabled()) {
-				LOG.info("Uploading took {} msecs"
-						, NF.get().format((System.currentTimeMillis() - start) / 1000d));
-			}
+			System.out.printf("Uploading took %f secs%n", (System.currentTimeMillis() - start) / 1000d);
 		} catch (IOException | StorageException e) {
 			throw new BuildException(e);
 		}

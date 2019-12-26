@@ -20,13 +20,9 @@ import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 
 import org.apache.tools.ant.BuildException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
@@ -38,9 +34,6 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
  * Common functionalities.
  */
 public abstract class TransferTask extends org.apache.tools.ant.Task {
-	private static final Logger LOG = LoggerFactory.getLogger(TransferTask.class);
-	protected static final ThreadLocal<NumberFormat> NF = ThreadLocal.withInitial(DecimalFormat::new);
-
 	private String defaultEndpointsProtocol="https";
 	private String accountName;
 	private String accountKey;
@@ -72,13 +65,13 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	
 	protected double computeSize(Path p) throws IOException {
 		if (!p.toFile().exists()) {
-			LOG.warn("The file {} does not exist", p);
+			System.err.println("The file " + p.toString() + " does not exist");
 			
 			return 0d;
 		}
 			
 		if (!p.toFile().isFile()) {
-			LOG.warn("{} is not a regular file", p);
+			System.err.println("The file " + p.toString() + "is not a regular file");
 				
 			return 0d;
 		}
