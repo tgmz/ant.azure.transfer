@@ -17,30 +17,37 @@
 	<property name="fileName" value="the name of the blob" />
 	<property name="m2dir" value="${user.home}${file.separator}.m2" />
 	<property name="tempFile" value="${java.io.tmpdir}${file.separator}${fileName}" />
+	<property name="overwrite" value="true" />
 	
 	<target name="download">
 		<azure.download accountName="${accountName}"
 			accountkey="${accountKey}"
 			containerReference="${containerReference}"
 			destination="${tempFile}"
+			overwrite="${overwrite}"
 			fileName="${fileName}" />
-		
+	</target>
+
+	<target name="unzip">
 		<unzip src="${tempFile}" dest="${m2dir}"/>
-		
-		<delete file="${tempFile}" />
 	</target>
 
 	<target name="upload">
-		<zip destfile="${tempFile}" >
-			<fileset dir="${m2dir}" />
-		</zip>
-		
 		<azure.upload accountName="${accountName}"
 			accountkey="${accountKey}"
 			containerReference="${containerReference}"
 			source="${tempFile}"
+			overwrite="${overwrite}"
 			fileName="${fileName}" />
-		
+	</target>
+
+	<target name="zip">
+		<zip destfile="${tempFile}" >
+			<fileset dir="${m2dir}" />
+		</zip>
+	</target>
+	
+	<target name="delete">
 		<delete file="${tempFile}" />
 	</target>
 </project>

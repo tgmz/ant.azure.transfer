@@ -21,6 +21,7 @@ import java.io.IOException;
 import org.apache.tools.ant.BuildException;
 
 import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 
 /**
  * Task to upload a file to an azure blob storage.
@@ -30,7 +31,15 @@ public class UploadTask extends TransferTask {
 	
 	@Override
 	public void execute() {
+		CloudBlockBlob b = getBlob();
+		
 		try {
+			if (b.exists() && !isOverwrite()) {
+				System.err.printf("Blob %s exists%n", b.getUri());
+				
+				return;
+			}
+			
 			System.out.printf("Uploading %f Mbytes from %s to %s%n"
 					, computeSize(source.toPath())
 					, source

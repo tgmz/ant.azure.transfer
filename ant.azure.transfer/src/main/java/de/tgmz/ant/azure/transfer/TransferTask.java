@@ -44,6 +44,8 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	private String fileName;
 	/** The blob */
 	private CloudBlockBlob blob; 
+	/** Overwrite file (download) or blob (upload) */
+	private boolean overwrite = true;
 	
 	/**
 	 * @return the blob
@@ -131,5 +133,13 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 
 	public void setEndpointSuffix(String endpointSuffix) {
 		this.endpointSuffix = endpointSuffix;
+	}
+
+	public boolean isOverwrite() {
+		return overwrite;
+	}
+
+	public void setOverwrite(boolean overwrite) {
+		this.overwrite = overwrite;
 	}
 }

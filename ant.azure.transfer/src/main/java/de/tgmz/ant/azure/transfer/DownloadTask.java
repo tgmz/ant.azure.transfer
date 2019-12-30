@@ -30,6 +30,12 @@ public class DownloadTask extends TransferTask {
 	
 	@Override
 	public void execute() {
+		if (destination.exists() && !isOverwrite()) {
+			System.err.printf("File %s exists%n", destination);
+			
+			return;
+		}
+		
 		try {
 			System.out.printf("Downloading from %s to %s%n"
 					, getBlob().getUri()
