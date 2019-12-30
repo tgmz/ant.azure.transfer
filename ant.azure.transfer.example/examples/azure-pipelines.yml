@@ -8,7 +8,7 @@ steps:
 - task: Ant@1
   inputs:
     buildFile: '<project>/build.xml'
-    targets: 'download'
+    targets: 'download unzip delete'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
     jdkArchitectureOption: 'x64'
@@ -26,6 +26,6 @@ steps:
   inputs:
     buildFile: '<project>/build.xml'
     options: 
-    targets: 'upload'
+    targets: 'zip upload delete'
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
