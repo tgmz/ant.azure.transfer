@@ -16,8 +16,11 @@
 	<property name="containerReference" value="the name of the blob container" />
 	<property name="fileName" value="the name of the blob" />
 	<property name="m2dir" value="${user.home}${file.separator}.m2" />
-	<property name="tempFile" value="${java.io.tmpdir}${file.separator}${fileName}" />
 	<property name="overwrite" value="true" />
+		
+	<tempfile property="tempFile" 
+		destDir="${java.io.tmpdir}"
+		suffix=".zip"/>		
 	
 	<target name="download">
 		<azure.download accountName="${accountName}"
