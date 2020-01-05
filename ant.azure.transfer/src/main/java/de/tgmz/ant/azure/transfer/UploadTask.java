@@ -32,31 +32,26 @@ public class UploadTask extends TransferTask {
 	@Override
 	public void execute() {
 		if (!source.exists() || !source.isFile()) {
-			throw new BuildException("The file " + source + " does not exist or is not a regular file");
+			throw new BuildException("The source " + source + " does not exist or is not a regular file");
 		}
 		
 		CloudBlockBlob b = getBlob();
 		
+		long start = System.currentTimeMillis();
+		
 		try {
 			if (b.exists() && !isOverwrite()) {
-				System.err.printf("Blob %s exists%n", b.getUri());
-				
-				return;
+				throw new BuildException("Blob " + b.getUri() + " exists");
 			}
 			
-			System.out.printf("Uploading %f Mbytes from %s to %s%n"
-					, computeSize(source.toPath())
-					, source
-					, getBlob().getUri());
-			
-			long start = System.currentTimeMillis();
+			log("Uploading " + computeSize(source.toPath()) + " Mbytes from " + source + " to " + getBlob().getUri());
 			
 			getBlob().uploadFromFile(source.toString());
-
-			System.out.printf("Uploading took %f secs%n", (System.currentTimeMillis() - start) / 1000d);
 		} catch (IOException | StorageException e) {
 			throw new BuildException(e);
 		}
+
+		log("Uploading took " + (System.currentTimeMillis() - start) / 1000d + " secs");
 	}
 	public File getSource() {
 		return source;

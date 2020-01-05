@@ -31,23 +31,21 @@ public class DownloadTask extends TransferTask {
 	@Override
 	public void execute() {
 		if (destination.exists() && !isOverwrite()) {
-			System.err.printf("File %s exists%n", destination);
-			
-			return;
+			throw new BuildException("File " + destination + " exists");
 		}
 		
+		if (destination.isDirectory()) {
+			throw new BuildException("The destination " + destination + " is a directory");
+		}
+		
+		log("Downloading from " + getBlob().getUri() + " to " + destination);
+					
+		long start = System.currentTimeMillis();
+					
 		try {
-			System.out.printf("Downloading from %s to %s%n"
-					, getBlob().getUri()
-					, destination);
-					
-			long start = System.currentTimeMillis();
-					
 			getBlob().downloadToFile(destination.toString());
 
-			System.out.printf("Downloading %f Mbytes took %f secs%n" 
-					, computeSize(destination.toPath())
-					, (System.currentTimeMillis() - start) / 1000d);
+			log("Downloading " + computeSize(destination.toPath()) + " Mbytes took " + ((System.currentTimeMillis() - start) / 1000d) + " secs");
 		} catch (StorageException | IOException e) {
 			throw new BuildException(e);
 		}

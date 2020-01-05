@@ -66,18 +66,6 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	}
 	
 	protected double computeSize(Path p) throws IOException {
-		if (!p.toFile().exists()) {
-			System.err.println("The file " + p.toString() + " does not exist");
-			
-			return 0d;
-		}
-			
-		if (!p.toFile().isFile()) {
-			System.err.println("The file " + p.toString() + "is not a regular file");
-				
-			return 0d;
-		}
-		
 		try (FileChannel fc = FileChannel.open(p)) {
 			return (double) fc.size() / (1024 * 1024);
 		}
