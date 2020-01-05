@@ -14,4 +14,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
+      env:
+        azureAccountName: ${{ secrets.azureAccountName }}
+        azureAccountKey: ${{ secrets.azureAccountKey }}
       run: mvn -B package --file ant.azure.transfer/pom.xml

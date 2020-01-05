@@ -2,27 +2,23 @@
 
 <project name="maven.cache.test">
 	<path id="azure.transfer.path">
-		<fileset dir="lib">
-			<include name="*.jar"/>
+		<fileset dir="target">
+			<include name="**/*.class"/>
 		</fileset>
 	</path>
 	<taskdef resource="de/tgmz/ant/azure/transfer/taskdef.properties" classpathref="azure.transfer.path"/>	
 
-	<property name="accountName" value="put your account name in here" />
-	<property name="accountKey" value="put your account key in here" />
-	<!-- <property name="defaultEndpointsProtocol" value="" /> Defaults to "https" -->
-	<!-- <property name="endpointSuffix" value"" /> Defaults to "core.windows.net" -->
+	<property file="test.properties" />
 	
-	<property name="containerReference" value="the name of the blob container" />
-	<property name="fileName" value="the name of the blob" />
-	<property name="m2dir" value="${user.home}${file.separator}.m2" />
-	<property name="overwrite" value="true" />
-		
 	<tempfile property="tempFile" 
 		destDir="${java.io.tmpdir}"
 		prefix=""
 		suffix=".zip"/>		
 	
+	<target name="clean">
+		<delete dir="${m2dir}" /> 
+	</target>
+
 	<target name="download">
 		<azure.download accountName="${accountName}"
 			accountkey="${accountKey}"
