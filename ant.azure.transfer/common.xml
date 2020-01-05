@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="common">
+	<path id="azure.transfer.path">
+		<fileset dir="target">
+			<include name="**/*.class"/>
+		</fileset>
+	</path>
+	<taskdef resource="de/tgmz/ant/azure/transfer/taskdef.properties" classpathref="azure.transfer.path"/>	
+
+	<tempfile property="tempFile" 
+		destDir="${java.io.tmpdir}"
+		prefix=""
+		suffix=".zip"/>		
+	
+	<target name="clean">
+		<delete dir="${m2dir}" /> 
+	</target>
+
+	<target name="download">
+		<azure.download accountName="${accountName}"
+			accountkey="${accountKey}"
+			containerReference="${containerReference}"
+			destination="${tempFile}"
+			overwrite="${overwrite}"
+			fileName="${fileName}" />
+	</target>
+
+	<target name="unzip">
+		<unzip src="${tempFile}" dest="${m2dir}"/>
+	</target>
+
+	<target name="upload">
+		<azure.upload accountName="${accountName}"
+			accountkey="${accountKey}"
+			containerReference="${containerReference}"
+			source="${tempFile}"
+			overwrite="${overwrite}"
+			fileName="${fileName}" />
+	</target>
+
+	<target name="zip">
+		<zip destfile="${tempFile}" >
+			<fileset dir="${m2dir}" />
+		</zip>
+	</target>
+	
+	<target name="delete">
+		<delete file="${tempFile}" />
+	</target>
+</project>

@@ -15,6 +15,7 @@ limitations under the License.
 *******************************************************************************/
 package de.tgmz.ant.azure.transfer.test;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,11 +27,41 @@ public class TransferTest {
 	@Test
 	public void happyDayTest() {
 		buildRule.configureProject("build.xml");
-		buildRule.executeTarget("clean");
-		buildRule.executeTarget("download");
-		buildRule.executeTarget("unzip");
-		buildRule.executeTarget("zip");
-		buildRule.executeTarget("upload");
-		buildRule.executeTarget("delete");
+		buildRule.executeTarget("common.clean");
+		buildRule.executeTarget("common.download");
+		buildRule.executeTarget("common.unzip");
+		buildRule.executeTarget("common.zip");
+		buildRule.executeTarget("common.upload");
+		buildRule.executeTarget("common.delete");
+	}
+
+	@Test(expected = BuildException.class)
+	public void invalidFileTest() {
+		buildRule.configureProject("build.xml");
+		buildRule.executeTarget("common.clean");
+		buildRule.executeTarget("common.delete");
+		buildRule.executeTarget("common.upload");	// Fails as the file does not exist
+	}
+
+	@Test(expected = BuildException.class)
+	public void invalidContainerTest() {
+		buildRule.configureProject("buildfail.xml");
+		buildRule.executeTarget("common.download");	// Fails as the container reference is set to "INVALID"
+	}
+
+	@Test(expected = BuildException.class)
+	public void noLocalOverwriteTest() {
+		buildRule.configureProject("buildfail2.xml");
+		buildRule.executeTarget("common.clean");
+		buildRule.executeTarget("common.download");
+		buildRule.executeTarget("common.download");	// Fails as the file exists and overwrite is set to "false"
+	}
+
+	@Test(expected = BuildException.class)
+	public void noRemoteOverwriteTest() {
+		buildRule.configureProject("buildfail2.xml");
+		buildRule.executeTarget("common.clean");
+		buildRule.executeTarget("common.download");
+		buildRule.executeTarget("common.upload");	// Fails as the blob exists and overwrite is set to "false"
 	}
 }
