@@ -34,19 +34,27 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
  * Common functionalities.
  */
 public abstract class TransferTask extends org.apache.tools.ant.Task {
-	private String defaultEndpointsProtocol="https";
+	/** 1000. */
+	protected static final double THOUSAND = 1000d;
+	/** Mebibyte. */
+	private static final double MB = 1024d * 1024d;
+	/** Default endpoint protocol. */
+	private String defaultEndpointsProtocol = "https";
+	/** Azure account name. */
 	private String accountName;
+	/** Base64 encoded Azure account key. */
 	private String accountKey;
-	private String endpointSuffix="core.windows.net";
-	/** The container on azure */
+	/** Default endpoint suffix. */
+	private String endpointSuffix = "core.windows.net";
+	/** The container on Azure. */
 	private String containerReference;
-	/** The file */
+	/** The name of the file on Azure. */
 	private String fileName;
-	/** The blob */
-	private CloudBlockBlob blob; 
-	/** Overwrite file (download) or blob (upload) */
+	/** The blob. */
+	private CloudBlockBlob blob;
+	/** Overwrite file (download) or blob (upload). */
 	private boolean overwrite = true;
-	
+
 	/**
 	 * @return the blob
 	 */
@@ -61,73 +69,131 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 				throw new BuildException(e);
 			}
 		}
-		
+
 		return blob;
 	}
-	
-	protected double computeSize(Path p) throws IOException {
+
+	/**
+	 * Computes the size of a path in MB.
+	 * @param p the path
+	 * @return the size of the path in MB
+	 * @throws IOException if the path does not denote a file or for other reasons.
+	 */
+	protected final double computeSize(final Path p) throws IOException {
 		try (FileChannel fc = FileChannel.open(p)) {
-			return (double) fc.size() / (1024 * 1024);
+			return fc.size() / MB;
 		}
 	}
-	
+
+	/**
+	 * Computes the connection string required by the azure-storage libraries.
+	 * @return the Azure connection string
+	 */
 	private String getConnectionString() {
+		//CHECKSTYLE DISABLE NoWhitespaceBefore
 		return MessageFormat.format("DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}"
 				, getDefaultEndpointsProtocol()
 				, getAccountName()
 				, getAccountKey()
 				, getEndpointSuffix());
-	}
-	public String getContainerReference() {
-		return containerReference;
-	}
-	public void setContainerReference(String containerReference) {
-		this.containerReference = containerReference;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+		//CHECKSTYLE ENABLE NoWhitespaceBefore
 	}
 
-	public String getDefaultEndpointsProtocol() {
+	/**
+	 * @return the defaultEndpointsProtocol
+	 */
+	public final String getDefaultEndpointsProtocol() {
 		return defaultEndpointsProtocol;
 	}
 
-	public void setDefaultEndpointsProtocol(String defaultEndpointsProtocol) {
-		this.defaultEndpointsProtocol = defaultEndpointsProtocol;
+	/**
+	 * @param aDefaultEndpointsProtocol the defaultEndpointsProtocol to set
+	 */
+	public final void setDefaultEndpointsProtocol(final String aDefaultEndpointsProtocol) {
+		this.defaultEndpointsProtocol = aDefaultEndpointsProtocol;
 	}
 
-	public String getAccountName() {
+	/**
+	 * @return the accountName
+	 */
+	public final String getAccountName() {
 		return accountName;
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	/**
+	 * @param aAccountName the accountName to set
+	 */
+	public final void setAccountName(final String aAccountName) {
+		this.accountName = aAccountName;
 	}
 
-	public String getAccountKey() {
+	/**
+	 * @return the accountKey
+	 */
+	public final String getAccountKey() {
 		return accountKey;
 	}
 
-	public void setAccountKey(String accountKey) {
-		this.accountKey = accountKey;
+	/**
+	 * @param aAccountKey the accountKey to set
+	 */
+	public final void setAccountKey(final String aAccountKey) {
+		this.accountKey = aAccountKey;
 	}
 
-	public String getEndpointSuffix() {
+	/**
+	 * @return the endpointSuffix
+	 */
+	public final String getEndpointSuffix() {
 		return endpointSuffix;
 	}
 
-	public void setEndpointSuffix(String endpointSuffix) {
-		this.endpointSuffix = endpointSuffix;
+	/**
+	 * @param aEndpointSuffix the endpointSuffix to set
+	 */
+	public final void setEndpointSuffix(final String aEndpointSuffix) {
+		this.endpointSuffix = aEndpointSuffix;
 	}
 
-	public boolean isOverwrite() {
+	/**
+	 * @return the containerReference
+	 */
+	public final String getContainerReference() {
+		return containerReference;
+	}
+
+	/**
+	 * @param aContainerReference the containerReference to set
+	 */
+	public final void setContainerReference(final String aContainerReference) {
+		this.containerReference = aContainerReference;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public final String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param aFileName the fileName to set
+	 */
+	public final void setFileName(final String aFileName) {
+		this.fileName = aFileName;
+	}
+
+	/**
+	 * @return the overwrite
+	 */
+	public final boolean isOverwrite() {
 		return overwrite;
 	}
 
-	public void setOverwrite(boolean overwrite) {
-		this.overwrite = overwrite;
+	/**
+	 * @param aOverwrite the overwrite to set
+	 */
+	public final void setOverwrite(final boolean aOverwrite) {
+		this.overwrite = aOverwrite;
 	}
 }

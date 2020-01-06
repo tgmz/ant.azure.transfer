@@ -25,35 +25,44 @@ import com.microsoft.azure.storage.StorageException;
 /**
  * Task to download a file from an azure blob storage.
  */
-public class DownloadTask extends TransferTask {
+public final class DownloadTask extends TransferTask {
+	/** The destination file. */
 	private File destination;
-	
+
 	@Override
 	public void execute() {
 		if (destination.exists() && !isOverwrite()) {
 			throw new BuildException("File " + destination + " exists");
 		}
-		
+
 		if (destination.isDirectory()) {
 			throw new BuildException("The destination " + destination + " is a directory");
 		}
-		
+
 		log("Downloading from " + getBlob().getUri() + " to " + destination);
-					
+
 		long start = System.currentTimeMillis();
-					
+
 		try {
 			getBlob().downloadToFile(destination.toString());
 
-			log("Downloading " + computeSize(destination.toPath()) + " Mbytes took " + ((System.currentTimeMillis() - start) / 1000d) + " secs");
+			log("Downloading " + computeSize(destination.toPath()) + " Mbytes took " + ((System.currentTimeMillis() - start) / THOUSAND) + " secs");
 		} catch (StorageException | IOException e) {
 			throw new BuildException(e);
 		}
 	}
+
+	/**
+	 * @return the destination
+	 */
 	public File getDestination() {
 		return destination;
 	}
-	public void setDestination(File destination) {
-		this.destination = destination;
+
+	/**
+	 * @param aDestination the destination to set
+	 */
+	public void setDestination(final File aDestination) {
+		this.destination = aDestination;
 	}
 }

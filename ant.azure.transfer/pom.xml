@@ -10,8 +10,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<dependency-check.version>5.2.2</dependency-check.version>
-		<checkstyle.version>2.17</checkstyle.version>
+		<dependency-check.version>RELEASE</dependency-check.version>
+		<checkstyle.version>3.1.0</checkstyle.version>
 		<spotbugs.version>3.1.3</spotbugs.version>
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
@@ -68,24 +68,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>${dependency-check.version}</version>
-				<configuration>
-					<assemblyAnalyzerEnabled>true</assemblyAnalyzerEnabled>
-					<centralAnalyzerEnabled>true</centralAnalyzerEnabled>
-					<logFile>${project.build.directory}/dependency-check.log</logFile>
-					<suppressionFile>${basedir}/src/main/resources/dependency-check-suppressions.xml</suppressionFile>
-					<nexusAnalyzerEnabled>false</nexusAnalyzerEnabled>
-					<skipSystemScope>true</skipSystemScope>
-					<failOnError>false</failOnError>
-					<failBuildOnCVSS>11</failBuildOnCVSS>
-					<formats>
-						<format>ALL</format>
-					</formats>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M4</version>
@@ -130,6 +112,32 @@
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${dependency-check.version}</version>
+				<configuration>
+					<assemblyAnalyzerEnabled>true</assemblyAnalyzerEnabled>
+					<centralAnalyzerEnabled>true</centralAnalyzerEnabled>
+					<logFile>${project.build.directory}/dependency-check.log</logFile>
+					<suppressionFile>${basedir}/src/main/resources/dependency-check-suppressions.xml</suppressionFile>
+					<nexusAnalyzerEnabled>false</nexusAnalyzerEnabled>
+					<skipSystemScope>true</skipSystemScope>
+					<failOnError>false</failOnError>
+					<failBuildOnCVSS>11</failBuildOnCVSS>
+					<formats>
+						<format>ALL</format>
+					</formats>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<inherited>false</inherited>
 						<reports>
 							<report>aggregate</report>
 						</reports>
@@ -231,4 +239,5 @@
 			</build>
 		</profile>
 	</profiles>
+	<url>https://github.com/tgmz/ant.azure.transfer</url>
 </project>

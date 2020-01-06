@@ -26,37 +26,46 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
 /**
  * Task to upload a file to an azure blob storage.
  */
-public class UploadTask extends TransferTask {
+public final class UploadTask extends TransferTask {
+	/** The file to upload. */
 	private File source;
-	
+
 	@Override
 	public void execute() {
 		if (!source.exists() || !source.isFile()) {
 			throw new BuildException("The source " + source + " does not exist or is not a regular file");
 		}
-		
+
 		CloudBlockBlob b = getBlob();
-		
+
 		long start = System.currentTimeMillis();
-		
+
 		try {
 			if (b.exists() && !isOverwrite()) {
 				throw new BuildException("Blob " + b.getUri() + " exists");
 			}
-			
+
 			log("Uploading " + computeSize(source.toPath()) + " Mbytes from " + source + " to " + getBlob().getUri());
-			
+
 			getBlob().uploadFromFile(source.toString());
 		} catch (IOException | StorageException e) {
 			throw new BuildException(e);
 		}
 
-		log("Uploading took " + (System.currentTimeMillis() - start) / 1000d + " secs");
+		log("Uploading took " + (System.currentTimeMillis() - start) / THOUSAND + " secs");
 	}
+
+	/**
+	 * @return the source
+	 */
 	public File getSource() {
 		return source;
 	}
-	public void setSource(File source) {
-		this.source = source;
+
+	/**
+	 * @param aSource the source to set
+	 */
+	public void setSource(final File aSource) {
+		this.source = aSource;
 	}
 }
