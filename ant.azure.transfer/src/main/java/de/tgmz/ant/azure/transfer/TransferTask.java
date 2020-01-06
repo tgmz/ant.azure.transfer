@@ -48,8 +48,8 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	private String endpointSuffix = "core.windows.net";
 	/** The container on Azure. */
 	private String containerReference;
-	/** The name of the file on Azure. */
-	private String fileName;
+	/** The name of the blob. */
+	private String blobName;
 	/** The blob. */
 	private CloudBlockBlob blob;
 	/** Overwrite file (download) or blob (upload). */
@@ -64,7 +64,7 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 				CloudStorageAccount storageAccount = CloudStorageAccount.parse(getConnectionString());
 				CloudBlobClient	blobClient = storageAccount.createCloudBlobClient();
 				CloudBlobContainer container = blobClient.getContainerReference(getContainerReference());
-				blob = container.getBlockBlobReference(getFileName());
+				blob = container.getBlockBlobReference(getBlobName());
 			} catch (InvalidKeyException | URISyntaxException | StorageException e) {
 				throw new BuildException(e);
 			}
@@ -170,17 +170,17 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	}
 
 	/**
-	 * @return the fileName
+	 * @return the blobName
 	 */
-	public final String getFileName() {
-		return fileName;
+	public final String getBlobName() {
+		return blobName;
 	}
 
 	/**
-	 * @param aFileName the fileName to set
+	 * @param ablobName the blobName to set
 	 */
-	public final void setFileName(final String aFileName) {
-		this.fileName = aFileName;
+	public final void setBlobName(final String ablobName) {
+		this.blobName = ablobName;
 	}
 
 	/**

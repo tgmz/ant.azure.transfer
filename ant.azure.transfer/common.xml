@@ -23,7 +23,7 @@
 			containerReference="${containerReference}"
 			destination="${tempFile}"
 			overwrite="${overwrite}"
-			fileName="${fileName}" />
+			blobName="${blobName}" />
 	</target>
 
 	<target name="unzip">
@@ -36,7 +36,7 @@
 			containerReference="${containerReference}"
 			source="${tempFile}"
 			overwrite="${overwrite}"
-			fileName="${fileName}" />
+			blobName="${blobName}" />
 	</target>
 
 	<target name="zip">

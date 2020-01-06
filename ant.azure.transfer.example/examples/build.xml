@@ -14,7 +14,7 @@
 	<!-- <property name="endpointSuffix" value"" /> Defaults to "core.windows.net" -->
 	
 	<property name="containerReference" value="the name of the blob container" />
-	<property name="fileName" value="the name of the blob" />
+	<property name="blobName" value="the name of the blob" />
 	<property name="m2dir" value="${user.home}${file.separator}.m2" />
 	<property name="overwrite" value="true" />
 		
@@ -29,7 +29,7 @@
 			containerReference="${containerReference}"
 			destination="${tempFile}"
 			overwrite="${overwrite}"
-			fileName="${fileName}" />
+			blobName="${blobName}" />
 	</target>
 
 	<target name="unzip">
@@ -42,7 +42,7 @@
 			containerReference="${containerReference}"
 			source="${tempFile}"
 			overwrite="${overwrite}"
-			fileName="${fileName}" />
+			blobName="${blobName}" />
 	</target>
 
 	<target name="zip">
