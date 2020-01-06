@@ -53,13 +53,6 @@ public final class DownloadTask extends TransferTask {
 	}
 
 	/**
-	 * @return the destination
-	 */
-	public File getDestination() {
-		return destination;
-	}
-
-	/**
 	 * @param aDestination the destination to set
 	 */
 	public void setDestination(final File aDestination) {

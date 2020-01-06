@@ -56,13 +56,6 @@ public final class UploadTask extends TransferTask {
 	}
 
 	/**
-	 * @return the source
-	 */
-	public File getSource() {
-		return source;
-	}
-
-	/**
 	 * @param aSource the source to set
 	 */
 	public void setSource(final File aSource) {
