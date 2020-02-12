@@ -90,13 +90,9 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	 * @return the Azure connection string
 	 */
 	private String getConnectionString() {
-		//CHECKSTYLE DISABLE NoWhitespaceBefore
-		return MessageFormat.format("DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}"
-				, getDefaultEndpointsProtocol()
-				, getAccountName()
-				, getAccountKey()
-				, getEndpointSuffix());
-		//CHECKSTYLE ENABLE NoWhitespaceBefore
+		MessageFormat mf = new MessageFormat("DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}");
+		
+		return mf.format(new Object[] {getDefaultEndpointsProtocol(), getAccountName(), getAccountKey(), getEndpointSuffix()});
 	}
 
 	/**
