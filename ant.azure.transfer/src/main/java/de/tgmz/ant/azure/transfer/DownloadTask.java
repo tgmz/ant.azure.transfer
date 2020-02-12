@@ -31,12 +31,16 @@ public final class DownloadTask extends TransferTask {
 
 	@Override
 	public void execute() {
-		if (destination.exists() && !isOverwrite()) {
-			throw new BuildException("File " + destination + " exists");
-		}
+		try {
+			if (destination.exists() && !isOverwrite()) {
+				throw new BuildException("File " + destination + " exists");
+			}
 
-		if (destination.isDirectory()) {
-			throw new BuildException("The destination " + destination + " is a directory");
+			if (destination.isDirectory()) {
+				throw new BuildException("The destination " + destination + " is a directory");
+			}
+		} catch (SecurityException e) {
+			throw new BuildException("A security exception occurred during access of " + destination, e);
 		}
 
 		log("Downloading from " + getBlob().getUri() + " to " + destination);
