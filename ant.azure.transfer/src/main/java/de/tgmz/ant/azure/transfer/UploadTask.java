@@ -32,8 +32,12 @@ public final class UploadTask extends TransferTask {
 
 	@Override
 	public void execute() {
-		if (!source.exists() || !source.isFile()) {
-			throw new BuildException("The source " + source + " does not exist or is not a regular file");
+		try {
+			if (!source.exists() || !source.isFile()) {
+				throw new BuildException("The source " + source + " does not exist or is not a regular file");
+			}
+		} catch (SecurityException e) {
+			throw new BuildException("A security exception occurred during access of " + source, e);
 		}
 
 		CloudBlockBlob b = getBlob();
