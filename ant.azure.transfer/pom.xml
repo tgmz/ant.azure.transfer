@@ -16,7 +16,7 @@
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
 		<sonar.dependencyCheck.reportPath>${project.build.directory}/dependency-check-report.xml</sonar.dependencyCheck.reportPath>
-		<jacoco.version>0.8.2</jacoco.version>
+		<jacoco.version>0.8.5</jacoco.version>
 	</properties>
 
 	<dependencies>
@@ -207,7 +207,6 @@
 				<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 				<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 				<sonar.jacoco.reportPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPaths>
-				<sonar.dependencyCheck.reportPath>../de.blb.zdev.parent/target/dependency-check-report.xml</sonar.dependencyCheck.reportPath>
 			</properties>
 			<build>
 				<plugins>

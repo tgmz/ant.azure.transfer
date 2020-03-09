@@ -91,7 +91,7 @@ public abstract class TransferTask extends org.apache.tools.ant.Task {
 	 */
 	private String getConnectionString() {
 		MessageFormat mf = new MessageFormat("DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2};EndpointSuffix={3}");
-		
+
 		return mf.format(new Object[] {getDefaultEndpointsProtocol(), getAccountName(), getAccountKey(), getEndpointSuffix()});
 	}
 
