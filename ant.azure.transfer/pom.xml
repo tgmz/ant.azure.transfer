@@ -30,6 +30,18 @@
 			<groupId>com.microsoft.azure</groupId>
 			<artifactId>azure-storage</artifactId>
 			<version>8.6.5</version>
+			<exclusions>
+			<exclusion>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+        </exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Enforce higher version for jackson-core (used by azure-storage). See CVE-2020-24616 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.11.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.ant/ant-testutil -->
 		<dependency>
