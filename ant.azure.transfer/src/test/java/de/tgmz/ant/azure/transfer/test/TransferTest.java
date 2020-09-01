@@ -24,7 +24,7 @@ public class TransferTest {
 	@Rule
 	public final BuildFileRule buildRule = new BuildFileRule();
 
-	@Test
+	@Test(expected = Test.None.class)
 	public void happyDayTest() {
 		buildRule.configureProject("build.xml");
 		buildRule.executeTarget("common.clean");
