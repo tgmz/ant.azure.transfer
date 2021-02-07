@@ -16,6 +16,7 @@
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
 		<jacoco.version>0.8.6</jacoco.version>
+		<ant.version>1.10.9</ant.version>
 		<sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
 	</properties>
 
@@ -23,7 +24,7 @@
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.10.8</version>
+			<version>${ant.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -47,7 +48,7 @@
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant-testutil</artifactId>
-			<version>1.10.8</version>
+			<version>${ant.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
