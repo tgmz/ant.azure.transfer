@@ -10,7 +10,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<dependency-check.version>RELEASE</dependency-check.version>
+		<dependency-check.version>6.1.0</dependency-check.version>
 		<checkstyle.version>3.1.0</checkstyle.version>
 		<spotbugs.version>4.0.4</spotbugs.version>
 		<javadoc.version>2.10.4</javadoc.version>
@@ -127,7 +127,7 @@
 						<skipSystemScope>true</skipSystemScope>
 						<failOnError>false</failOnError>
 						<failBuildOnCVSS>11</failBuildOnCVSS>
-						<format>ALL</format>
+						<format>HTML</format>
 					</configuration>
 				</plugin>
 			</plugins>
