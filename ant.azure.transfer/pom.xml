@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.tgmz</groupId>
 	<artifactId>ant.azure.transfer</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<description>Ant tasks for transferring an azure blob from/to the local file system</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,8 +15,8 @@
 		<spotbugs.version>4.0.4</spotbugs.version>
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
-		<sonar.dependencyCheck.reportPath>${project.build.directory}/dependency-check-report.xml</sonar.dependencyCheck.reportPath>
 		<jacoco.version>0.8.5</jacoco.version>
+		<sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
 	</properties>
 
 	<dependencies>
@@ -111,6 +111,27 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.owasp</groupId>
+					<artifactId>dependency-check-maven</artifactId>
+					<version>${dependency-check.version}</version>
+					<configuration>
+						<detail>true</detail>
+						<assemblyAnalyzerEnabled>true</assemblyAnalyzerEnabled>
+						<centralAnalyzerEnabled>true</centralAnalyzerEnabled>
+						<ossindexAnalyzerEnabled>true</ossindexAnalyzerEnabled>
+						<nexusAnalyzerEnabled>false</nexusAnalyzerEnabled>
+						<logFile>${project.build.directory}/dependency-check.log</logFile>
+						<skipSystemScope>true</skipSystemScope>
+						<failOnError>false</failOnError>
+						<failBuildOnCVSS>11</failBuildOnCVSS>
+						<format>ALL</format>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<reporting>
 		<plugins>
@@ -144,32 +165,6 @@
 				<reportSets>
 					<reportSet>
 						<id>aggregate</id>
-						<reports>
-							<report>aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>${dependency-check.version}</version>
-				<configuration>
-					<assemblyAnalyzerEnabled>true</assemblyAnalyzerEnabled>
-					<centralAnalyzerEnabled>true</centralAnalyzerEnabled>
-					<logFile>${project.build.directory}/dependency-check.log</logFile>
-					<suppressionFile>${basedir}/src/main/resources/dependency-check-suppressions.xml</suppressionFile>
-					<nexusAnalyzerEnabled>false</nexusAnalyzerEnabled>
-					<skipSystemScope>true</skipSystemScope>
-					<failOnError>false</failOnError>
-					<failBuildOnCVSS>11</failBuildOnCVSS>
-					<formats>
-						<format>ALL</format>
-					</formats>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
 						<reports>
 							<report>aggregate</report>
 						</reports>
