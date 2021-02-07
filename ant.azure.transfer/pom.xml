@@ -15,7 +15,7 @@
 		<spotbugs.version>4.0.4</spotbugs.version>
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
-		<jacoco.version>0.8.5</jacoco.version>
+		<jacoco.version>0.8.6</jacoco.version>
 		<sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
 	</properties>
 
