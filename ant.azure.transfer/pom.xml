@@ -16,7 +16,7 @@
 		<javadoc.version>2.10.4</javadoc.version>
 		<jxr.version>3.0.0</jxr.version>
 		<jacoco.version>0.8.6</jacoco.version>
-		<ant.version>1.10.10</ant.version>
+		<ant.version>1.10.11</ant.version>
 		<sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
 	</properties>
 
