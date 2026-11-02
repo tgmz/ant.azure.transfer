@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.5.0-jre</version>
+			<version>33.7.1-jre</version>
 		</dependency>
 		<!-- Enforce higher version for commons-lang. See CVE-2025-48924 -->
 		<dependency>
